@@ -1,0 +1,39 @@
+<resources>
+    <string name="texto1">Telefono</string>
+    <string name="app_name">Taxiplus</string>
+    <string name="texto2">PIN</string>
+    <string name="texto3">Iniciar Sesion</string>
+    <string name="texto4"><u>Contraseña</u></string>
+    <string name="texto5">Registrarse</string>
+    <string name="texto6">Enviar</string>
+    <string name="texto7">Correo electronico</string>
+    <string name="texto8">Confirmar Telefono</string>>
+    <string name="texto9">Confirmar Pin</string>>
+    <string name="texto10">id_viaje</string>>
+    <string name="texto11">Fecha Inicio</string>>
+    <string name="texto12">Fecha de Termino</string>>
+    <string name="texto13">Costo</string>>
+    <string name="texto14">id_conductor</string>>
+    <string name="texto15">Casa</string>>
+    <string name="texto16">Nombre  Completo</string>>
+    <string name="texto17">Casa</string>>
+    <string name="texto18">Oficina</string>>
+    <string name="texto19">estado</string>>
+    <string name="texto20">TIpo de viaje</string>>
+    <string name="texto21">Favoritos</string>>
+    <string name="texto22">Fecha de nacimiento</string>>
+    <string name="texto23">Genero</string>>
+    <string name="texto24">Fecha de Registro</string>>
+    <string name="texto25">Cerrar sesion</string>>
+    <string name="texto26">ID</string>>
+    <string name="texto27">Editar Nombre</string>>
+    <string name="texto28">Editar Telefono</string>>
+    <string name="texto29">Editar correo</string>>
+    <string name="texto30">Editar casa</string>>
+    <string name="texto31">Editar oficina</string>>
+    <string name="texto32">Editar Favoritos</string>>
+    <string name="texto33">Editar genero</string>>
+    <string name="texto34">Editar perfil</string>>
+    <string name="texto35">Confrimar Contraseña</string>>
+
+</resources>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fondo_2"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".Principal">
+    <LinearLayout
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:background="@drawable/rectangulocircular_adondevamos_3"
+        android:gravity="center"
+        android:orientation="vertical">
+        <EditText
+
+            android:layout_width="280dp"
+            android:layout_height="100dp"
+            android:id="@+id/telefono"
+            android:background="@drawable/boton"
+            android:hint="@string/texto1"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:textColorHint="@color/blanco"
+            android:layout_margin="10dp"
+            android:textColor="@color/blanco"
+            />
+
+    </LinearLayout>
+
+
+    <EditText
+        android:layout_width="280dp"
+        android:layout_height="100dp"
+        android:id="@+id/contrasena"
+        android:background="@drawable/button"
+        android:hint="@string/texto2"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:textColorHint="@color/blanco"
+        android:layout_margin="10dp"
+        android:textColor="@color/blanco"
+        />
+    <Button
+        android:layout_width="180dp"
+        android:id="@+id/iniciarSesion"
+        android:layout_height="70dp"
+        android:background="@drawable/button"
+        android:text="@string/texto3"
+        android:textSize="16dp"
+        android:layout_margin="10dp"
+        android:textColor="@color/blanco"
+        android:gravity="center"
+        android:layout_marginBottom="10dp"
+        />
+    <Button
+        android:layout_width="180dp"
+        android:id="@+id/recuperarContra"
+        android:layout_height="70dp"
+        android:background="@color/negro"
+        android:text="@string/texto4"
+        android:textSize="16dp"
+        android:layout_margin="10dp"
+        android:textColor="@color/blanco"
+        android:gravity="center"
+        android:layout_marginBottom="10dp"
+        />
+
+    <Button
+        android:layout_width="180dp"
+        android:id="@+id/registrarse"
+        android:layout_height="70dp"
+        android:background="@color/negro"
+        android:text="@string/texto5"
+        android:textSize="16dp"
+        android:layout_margin="5dp"
+        android:textColor="@color/blanco"
+        android:gravity="center"
+        android:layout_marginBottom="5dp"
+        />
+
+
+
+
+</LinearLayout>
