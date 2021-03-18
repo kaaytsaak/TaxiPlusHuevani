@@ -31,6 +31,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Perfil extends AppCompatActivity {
 
@@ -38,14 +40,15 @@ public class Perfil extends AppCompatActivity {
     private Asincrona asincrona;
     private SharedPreferences datosUsuario;
     private SharedPreferences.Editor editor_usuario;
-    private boolean telExitoso,pinExitoso ;
+    private boolean telExitoso,pinExitoso,telefonoExitoso,conPasswordExitoso,passExitoso,passwordEquals,emailExitoso;
     private LinearLayout cajaImagenTexto,cajaImagenEditor,cajaTelefonoTexto,cajaTelefonoEditar,cajaContraseñaTexto,cajaContraseñaEditar,cajaConfirmarTexto,confirmar_contraseña,cajacorreoTexto,cajaCorreoEditar,cajacasaTexto,cajacasaEditar,cajaOficinaTexto,
             cajaOficinaEditar,cajaFavoritosTexto,cajaFavoritosEditar,cajaSexoTexto,cajaSexoEditar;
     private ImageView fotoEdit,fotoNew,telefonoEdit,telefonoNew,controseñaEdit,contraseñaNew,confirmarContraseñaNew,confirmarContraseñaEdit,emailEdit,emailNew,casaedit,casaNew,oficinaEdit,oficinaNew,favoritosEdit,favoritosNew,sexoEdit,sexoNew,cerrar_sesion,actualizar;
-    private TextView nombre,telefono,password,confpassword,id,email,casa,oficina,favoritos,fecha_nacimiento,sexo,fecha_registro,confirmar_si,confirmar_no,cerrar_si,cerrar_no;
+    private TextView nombre,telefono,mensajetelefono,password,confpassword,mensajepassword,mensajepass,mensajeCorreo,id,email,casa,oficina,favoritos,fecha_nacimiento,sexo,fecha_registro,confirmar_si,confirmar_no,cerrar_si,cerrar_no;
     private EditText telefonoEditado,passwordEditado,emailEditado,casaEditar,oficinaEditar,favoritosEditor,sexoEditor,confirmar_contra;
-    private String strId,strNombre,strApellido,strTelefono,strpassword,strConfpassword,strEmail,strCasa,strOficina,strFavoritos,strFechaNacimiento,strSexo,strFechaRegistro,strId_sesion,nuevoTel,nuevaContra,confirmar_contra_new,nuevoEmail,
-                   nuevaCasa,nuevaOficina,nuevoFavoritos,nuevoSexo,valTel,valContra,valEmail,valCasa,valOficina,valFavoritos,valSexo;
+    private String strId,strNombre,strApellido,strTelefono,strpassword,strConfpassword,strEmail,strCasa,strOficina,strFavoritos,strFechaNacimiento,strSexo,strFechaRegistro,strId_sesion,
+            nuevoTel,telefonoEditadoFinal,telefonoEditatemp,nuevaContra,passwordFinal,passwordtemp,confirmar_contra_new,confirmar_contraFinal,confirmar_contratemp,nuevoEmail,emailfinal,
+                   nuevaCasa,nuevaOficina,nuevoFavoritos,nuevoSexo,valTel,valContra,valconPass,valEmail,valCasa,valOficina,valFavoritos,valSexo;
     private ConstraintLayout confirmar_actualizar,confirmar_cerrar;
     private int check=0;
 
@@ -65,12 +68,16 @@ public class Perfil extends AppCompatActivity {
         nombre = (TextView) findViewById(R.id.nombre);
         telefonoEditado=(EditText)findViewById(R.id.telefonoEditado);
         telefono = (TextView) findViewById(R.id.telefono);
+        mensajetelefono = (TextView) findViewById(R.id.mensajetelefono);
         id= (TextView) findViewById(R.id.id);
         password=(TextView)findViewById(R.id.password);
+        mensajepass=(TextView)findViewById(R.id.mensajepass);
         passwordEditado =(EditText) findViewById(R.id.passwordEditado);
         confpassword=(TextView)findViewById(R.id.confpassword);
+        mensajepassword=(TextView)findViewById(R.id.mensajepassword);
         confirmar_contra =(EditText) findViewById(R.id.confirmar_contra);
         email = (TextView) findViewById(R.id.email);
+        mensajeCorreo = (TextView) findViewById(R.id.mensajeCorreo);
         emailEditado=(EditText)findViewById(R.id.emailEditado);
         casa = (TextView) findViewById(R.id.casa);
         casaEditar=(EditText)findViewById(R.id.casaEditar);
@@ -182,10 +189,34 @@ public class Perfil extends AppCompatActivity {
         telefonoNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cajaTelefonoEditar.setVisibility(View.GONE);
-                cajaTelefonoTexto.setVisibility(View.VISIBLE);
-                nuevoTel=telefonoEditado.getText().toString();
-                telefono.setText(nuevoTel);
+
+                    //Toast.makeText(getApplicationContext(), "NOMBRE PERDIO FOCO", Toast.LENGTH_LONG).show();
+                    telefonoEditadoFinal=telefonoEditado.getText().toString().trim().toLowerCase();
+                    if (!telefonoEditadoFinal.equals("")&&telefonoEditadoFinal!=null)
+                    {
+                        String regexUsuario = "[0-9]+";
+                        telefonoEditatemp=telefonoEditadoFinal;
+                        String verificarReg= telefonoEditatemp.trim().replaceAll(regexUsuario,"");
+                        if (verificarReg.equals(""))
+                        {
+                            telefonoExitoso=true;
+                            mensajetelefono.setVisibility(View.GONE);
+                            cajaTelefonoEditar.setVisibility(View.GONE);
+                            cajaTelefonoTexto.setVisibility(View.VISIBLE);
+                            nuevoTel=telefonoEditado.getText().toString();
+                            telefono.setText(nuevoTel);
+                        }
+
+                        else
+                        {
+
+                            mensajetelefono.setText("El telefono solo pueden tener numeros");
+                            mensajetelefono.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+
+
             }
         });
         controseñaEdit.setOnClickListener(new View.OnClickListener() {
@@ -217,10 +248,47 @@ public class Perfil extends AppCompatActivity {
         confirmarContraseñaEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cajaConfirmarTexto.setVisibility(View.VISIBLE);
-                confirmar_contraseña.setVisibility(View.GONE);
-                confirmar_contra_new=confirmar_contra.getText().toString();
-                confpassword.setText(confirmar_contra_new);
+                confirmar_contraFinal=confirmar_contra.getText().toString().trim().toLowerCase();
+                if (!confirmar_contraFinal.equals("")&&confirmar_contraFinal!=null)
+                {
+                    String regexUsuario = "[0-9]+";
+                    confirmar_contratemp=confirmar_contraFinal;
+                    String verificarReg= confirmar_contratemp.trim().replaceAll(regexUsuario,"");
+                    if (verificarReg.equals(""))
+                    {
+
+
+                        valContra = passwordEditado.getText().toString().trim();
+                        valconPass = confirmar_contra.getText().toString().trim();
+
+                        Log.e("valores",valContra+"   "+valconPass);
+                        if(valContra.equals(valconPass)){
+                            passwordEquals=true;
+                            cajaConfirmarTexto.setVisibility(View.VISIBLE);
+                            confirmar_contraseña.setVisibility(View.GONE);
+                            confirmar_contra_new=confirmar_contra.getText().toString();
+                            confpassword.setText(confirmar_contra_new);
+
+                            mensajepassword.setVisibility(View.GONE);
+                            Log.e("paso","paso");
+                        }
+                        else{
+                            mensajepassword.setText("Los PIN no coinciden");
+                            mensajepassword.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                    else
+                    {
+                        conPasswordExitoso=false;
+                        mensajepassword.setText("El PIN solo pueden tener numeros");
+                        mensajepassword.setVisibility(View.VISIBLE);
+                    }
+                }
+
+
+
+
             }
         });
 
@@ -373,6 +441,7 @@ public class Perfil extends AppCompatActivity {
                 Log.e("datoConP", valOficina);
                 Log.e("datonom", valFavoritos);
                 Log.e("datoemail", valSexo);
+
                 asincrona= new Asincrona();
                 asincrona.execute();
             }
@@ -386,7 +455,138 @@ public class Perfil extends AppCompatActivity {
 
         });
 
+        telefonoEditado.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean tieneFoco) {
 
+               if(!tieneFoco)
+                {
+                    //Toast.makeText(getApplicationContext(), "NOMBRE PERDIO FOCO", Toast.LENGTH_LONG).show();
+                    telefonoEditadoFinal=telefono.getText().toString().trim().toLowerCase();
+                    if (!telefonoEditadoFinal.equals("")&&telefonoEditadoFinal!=null)
+                    {
+                        String regexUsuario = "[0-9]+";
+                        telefonoEditatemp=telefonoEditadoFinal;
+                        String verificarReg= telefonoEditatemp.trim().replaceAll(regexUsuario,"");
+                        if (verificarReg.equals(""))
+                        {
+                            telefonoExitoso=true;
+                            mensajetelefono.setVisibility(View.GONE);
+                        }
+
+                        else
+                        {
+
+                            mensajetelefono.setText("El telefono solo pueden tener numeros");
+                            mensajetelefono.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+
+            }
+
+        });
+        passwordEditado.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean tieneFoco) {
+
+                if(!tieneFoco)
+                {
+                    //Toast.makeText(getApplicationContext(), "NOMBRE PERDIO FOCO", Toast.LENGTH_LONG).show();
+                    passwordFinal=passwordEditado.getText().toString().trim().toLowerCase();
+                    if (!passwordFinal.equals("")&&passwordFinal!=null)
+                    {
+                        String regexUsuario = "[0-9]+";
+                        passwordtemp=passwordFinal;
+                        String verificarReg= passwordtemp.trim().replaceAll(regexUsuario,"");
+                        if (verificarReg.equals(""))
+                        {
+                            passExitoso=true;
+                            mensajepass.setVisibility(View.GONE);
+                        }
+
+                        else
+                        {
+
+                            mensajepass.setText("El telefono solo pueden tener numeros");
+                            mensajepass.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+                else{
+                    //Toast.makeText(getApplicationContext(), "NOMBRE obtuvo FOCO", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        confirmar_contra.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean tieneFoco) {
+
+                if(!tieneFoco)
+                {
+                    //Toast.makeText(getApplicationContext(), "NOMBRE PERDIO FOCO", Toast.LENGTH_LONG).show();
+                    confirmar_contraFinal=confirmar_contra.getText().toString().trim().toLowerCase();
+                    if (!confirmar_contraFinal.equals("")&&confirmar_contraFinal!=null)
+                    {
+                        String regexUsuario = "[0-9]+";
+                        confirmar_contratemp=confirmar_contraFinal;
+                        String verificarReg= confirmar_contratemp.trim().replaceAll(regexUsuario,"");
+                        if (verificarReg.equals(""))
+                        {
+                            conPasswordExitoso=true;
+
+                            valContra = passwordEditado.getText().toString().trim();
+                            valconPass = confirmar_contra.getText().toString().trim();
+
+                            Log.e("valores",valContra+"   "+valconPass);
+                            if(valContra.equals(valconPass)){
+                                mensajepassword.setVisibility(View.GONE);
+                                Log.e("paso","paso");
+                            }
+                            else{
+                                mensajepassword.setText("Los PIN no coinciden");
+                                mensajepassword.setVisibility(View.VISIBLE);
+                            }
+                        }
+
+                        else
+                        {
+
+                            mensajepassword.setText("El PIN solo pueden tener numeros");
+                            mensajepassword.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+
+            }
+        });
+        emailEditado.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean tieneFoco) {
+
+                if(!tieneFoco)
+                {
+                    emailfinal=emailEditado.getText().toString().trim().toLowerCase();
+                    if (!emailfinal.equals("")&&emailfinal!=null)
+                    {
+                        // String regex = "^(.+)@(.+)$";
+
+                        String regexUsuario = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+(?:\\.[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+)*@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$";
+                        Pattern pattern = Pattern.compile(regexUsuario);
+                        Matcher matcher = pattern.matcher(emailfinal);
+                        if(matcher.matches()==true){
+
+                            emailExitoso=true;
+                            mensajeCorreo.setVisibility(View.GONE);
+                        }
+                    }
+                }
+                else{
+                    mensajeCorreo.setText("Ingrese una direccion de correo valido");
+                    mensajeCorreo.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
     private class Asincrona extends AsyncTask<Void, Integer,Void>
     {
