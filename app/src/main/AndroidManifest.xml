@@ -20,12 +20,13 @@
         <activity android:name=".Registro"></activity>
         <activity android:name=".Perfil" >
 
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".Taxi_Plus_Recycler"

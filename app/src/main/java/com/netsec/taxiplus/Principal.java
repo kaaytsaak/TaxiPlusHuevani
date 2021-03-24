@@ -90,7 +90,7 @@ public class Principal extends AppCompatActivity {
         registrarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intento2= new Intent( Principal.this,Registrarse.class);
+                Intent intento2= new Intent( Principal.this,Registro.class);
                 startActivity(intento2);
             }
         });

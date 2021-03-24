@@ -138,7 +138,7 @@ public class Perfil extends AppCompatActivity {
         telefonosRegistrado= (TextView) findViewById(R.id.telefonosRegistrado);
 
         datosUsuario = getSharedPreferences("Usuario",this.MODE_PRIVATE);
-        strId = datosUsuario.getString("id","1 ");
+        strId = datosUsuario.getString("id","27 ");
         strNombre = datosUsuario.getString("nombres"," paque");
         strApellido = datosUsuario.getString("apellidos","Perez");
         strTelefono= datosUsuario.getString("telefono"," 5614753220");
@@ -149,7 +149,7 @@ public class Perfil extends AppCompatActivity {
         strFechaNacimiento = datosUsuario.getString("fecha_nacimiento","15/05/1993 ");
         strSexo = datosUsuario.getString("sexo"," indefinido");
         strFechaRegistro = datosUsuario.getString("fecha_registro","24/01/2021 ");
-        strId_sesion = datosUsuario.getString("id_sesion","123a4bb80df15bec048eb8a680157ac473f6121a");
+        strId_sesion = datosUsuario.getString("id_sesion","paque");
         strpassword = datosUsuario.getString("password","1509");
         strConfpassword = datosUsuario.getString("password","1509");
 
@@ -381,8 +381,8 @@ public class Perfil extends AppCompatActivity {
 
                 confirmar_cerrar.setVisibility(View.VISIBLE);
 
-                /*Intent intento2= new Intent( Perfil.this,Principal.class);
-                startActivity(intento2);*/
+                Intent intento2= new Intent( Perfil.this,Principal.class);
+                startActivity(intento2);
             }
         });
         cerrar_si.setOnClickListener(new View.OnClickListener() {
@@ -457,9 +457,10 @@ public class Perfil extends AppCompatActivity {
                                                         if(valContra.equals(valconPass)){
                                                             if(telefonoExistente==false){
                                                                 telefonosRegistrado.setVisibility(View.GONE);
+                                                                confirmar_actualizar.setVisibility(View.GONE);
+
                                                                 asincrona = new Perfil.Asincrona();
                                                                 asincrona.execute();
-
 
                                                             }
                                                             else{
