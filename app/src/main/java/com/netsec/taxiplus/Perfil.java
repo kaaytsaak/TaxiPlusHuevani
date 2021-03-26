@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -441,9 +442,65 @@ public class Perfil extends AppCompatActivity {
                 Log.e("datoConP", valOficina);
                 Log.e("datonom", valFavoritos);
                 Log.e("datoemail", valSexo);
+                if (!valTel.trim().equals("")){
+                    if (!valEmail.trim().equals("")){
+                        if (!valCasa.trim().equals("")){
+                            if (!valOficina.trim().equals("")){
+                                if (telExitoso=true){
+                                    if (pinExitoso=true){
+                                        if(telefonoExitoso=true){
+                                            if(passExitoso=true){
+                                                if( conPasswordExitoso=true){
+                                                    if(emailExitoso=true){
+                                                        if(valContra.equals(valconPass)){
+                                                            asincrona= new Asincrona();
+                                                            asincrona.execute();
+                                                        }
+                                                        else{
+                                                            Toast.makeText(getApplicationContext(),"Los PIN deben ser iguales",Toast.LENGTH_LONG).show();
+                                                        }
+                                                    }
+                                                    else{
+                                                        Toast.makeText(getApplicationContext(),"Ingrese su correo electronico",Toast.LENGTH_LONG).show();
+                                                    }
+                                                }
+                                                else{
+                                                    Toast.makeText(getApplicationContext(),"El password solo puede tener numeros.",Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                            else{
+                                                Toast.makeText(getApplicationContext(),"El password solo puede tener numeros.",Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                        else{
+                                            Toast.makeText(getApplicationContext(),"El Telefono solo puede tener numeros.",Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                    else{
+                                        Toast.makeText(getApplicationContext(),"El PIN debe  tener unicamente 4 digitos.",Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(),"el telefono debe tener 10 digitos.",Toast.LENGTH_LONG).show();
+                                }
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(),"La direccipon es necesaria.",Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(),"La direccipon es necesaria .",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(),"El correo es necesario.",Toast.LENGTH_LONG).show();
+                    }
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"El telefono es necesario.",Toast.LENGTH_LONG).show();
+                }
 
-                asincrona= new Asincrona();
-                asincrona.execute();
+
             }
         });
         confirmar_no.setOnClickListener(new View.OnClickListener() {
