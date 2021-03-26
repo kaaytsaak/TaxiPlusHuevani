@@ -114,6 +114,7 @@
                     android:textColorHint="@color/negro"
                     android:gravity="bottom" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="300dp"
                 android:layout_height="35dp"
@@ -189,6 +190,17 @@
                 android:layout_marginVertical="7dp"
                 android:gravity="center"
                 android:id="@+id/mensajetelefono"/>
+            <TextView
+                android:layout_width="180dp"
+                android:id="@+id/telefonosRegistrado"
+                android:layout_height="70dp"
+                android:text="El numero ya esta registrado ..."
+                android:textSize="20dp"
+                android:layout_margin="5dp"
+                android:textColor="@color/negro"
+                android:gravity="center"
+                android:background="@color/gris"
+                android:visibility="gone" />
             <LinearLayout
                 android:layout_width="300dp"
                 android:layout_height="35dp"
@@ -267,11 +279,13 @@
                 android:layout_marginVertical="7dp"
                 android:gravity="center"
                 android:id="@+id/mensajepass"/>
+
             <LinearLayout
                 android:layout_width="300dp"
                 android:layout_height="35dp"
                 android:background="@drawable/rayita"
                 android:gravity="top"/>
+
             <TextView
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"

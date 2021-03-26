@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -38,13 +39,14 @@ public class Perfil extends AppCompatActivity {
 
     private static String SERVIDOR_CONTROLADOR;
     private Asincrona asincrona;
+    private Perfil.AsincronaTel asincrona_tel;
     private SharedPreferences datosUsuario;
     private SharedPreferences.Editor editor_usuario;
-    private boolean telExitoso,pinExitoso,telefonoExitoso,conPasswordExitoso,passExitoso,passwordEquals,emailExitoso;
+    private boolean telExitoso,pinExitoso,telefonoExitoso,conPasswordExitoso,passExitoso,passwordEquals,emailExitoso,telefonoExistente;
     private LinearLayout cajaImagenTexto,cajaImagenEditor,cajaTelefonoTexto,cajaTelefonoEditar,cajaContraseñaTexto,cajaContraseñaEditar,cajaConfirmarTexto,confirmar_contraseña,cajacorreoTexto,cajaCorreoEditar,cajacasaTexto,cajacasaEditar,cajaOficinaTexto,
             cajaOficinaEditar,cajaFavoritosTexto,cajaFavoritosEditar,cajaSexoTexto,cajaSexoEditar;
     private ImageView fotoEdit,fotoNew,telefonoEdit,telefonoNew,controseñaEdit,contraseñaNew,confirmarContraseñaNew,confirmarContraseñaEdit,emailEdit,emailNew,casaedit,casaNew,oficinaEdit,oficinaNew,favoritosEdit,favoritosNew,sexoEdit,sexoNew,cerrar_sesion,actualizar;
-    private TextView nombre,telefono,mensajetelefono,password,confpassword,mensajepassword,mensajepass,mensajeCorreo,id,email,casa,oficina,favoritos,fecha_nacimiento,sexo,fecha_registro,confirmar_si,confirmar_no,cerrar_si,cerrar_no;
+    private TextView nombre,telefono,mensajetelefono,password,confpassword,mensajepassword,mensajepass,mensajeCorreo,id,email,casa,oficina,favoritos,fecha_nacimiento,sexo,telefonosRegistrado,fecha_registro,confirmar_si,confirmar_no,cerrar_si,cerrar_no;
     private EditText telefonoEditado,passwordEditado,emailEditado,casaEditar,oficinaEditar,favoritosEditor,sexoEditor,confirmar_contra;
     private String strId,strNombre,strApellido,strTelefono,strpassword,strConfpassword,strEmail,strCasa,strOficina,strFavoritos,strFechaNacimiento,strSexo,strFechaRegistro,strId_sesion,
             nuevoTel,telefonoEditadoFinal,telefonoEditatemp,nuevaContra,passwordFinal,passwordtemp,confirmar_contra_new,confirmar_contraFinal,confirmar_contratemp,nuevoEmail,emailfinal,
@@ -133,9 +135,10 @@ public class Perfil extends AppCompatActivity {
         confirmar_cerrar= (ConstraintLayout) findViewById(R.id.confirmar_cerrar);
         cerrar_si = (TextView) findViewById(R.id.cerrar_si);
         cerrar_no = (TextView) findViewById(R.id.cerrar_no);
+        telefonosRegistrado= (TextView) findViewById(R.id.telefonosRegistrado);
 
         datosUsuario = getSharedPreferences("Usuario",this.MODE_PRIVATE);
-        strId = datosUsuario.getString("id","1 ");
+        strId = datosUsuario.getString("id","27 ");
         strNombre = datosUsuario.getString("nombres"," paque");
         strApellido = datosUsuario.getString("apellidos","Perez");
         strTelefono= datosUsuario.getString("telefono"," 5614753220");
@@ -146,7 +149,7 @@ public class Perfil extends AppCompatActivity {
         strFechaNacimiento = datosUsuario.getString("fecha_nacimiento","15/05/1993 ");
         strSexo = datosUsuario.getString("sexo"," indefinido");
         strFechaRegistro = datosUsuario.getString("fecha_registro","24/01/2021 ");
-        strId_sesion = datosUsuario.getString("id_sesion","123a4bb80df15bec048eb8a680157ac473f6121a");
+        strId_sesion = datosUsuario.getString("id_sesion","paque");
         strpassword = datosUsuario.getString("password","1509");
         strConfpassword = datosUsuario.getString("password","1509");
 
@@ -190,6 +193,8 @@ public class Perfil extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                asincrona_tel = new AsincronaTel();
+                asincrona_tel.execute();
                     //Toast.makeText(getApplicationContext(), "NOMBRE PERDIO FOCO", Toast.LENGTH_LONG).show();
                     telefonoEditadoFinal=telefonoEditado.getText().toString().trim().toLowerCase();
                     if (!telefonoEditadoFinal.equals("")&&telefonoEditadoFinal!=null)
@@ -201,10 +206,8 @@ public class Perfil extends AppCompatActivity {
                         {
                             telefonoExitoso=true;
                             mensajetelefono.setVisibility(View.GONE);
-                            cajaTelefonoEditar.setVisibility(View.GONE);
-                            cajaTelefonoTexto.setVisibility(View.VISIBLE);
-                            nuevoTel=telefonoEditado.getText().toString();
-                            telefono.setText(nuevoTel);
+
+
                         }
 
                         else
@@ -378,8 +381,8 @@ public class Perfil extends AppCompatActivity {
 
                 confirmar_cerrar.setVisibility(View.VISIBLE);
 
-                /*Intent intento2= new Intent( Perfil.this,Principal.class);
-                startActivity(intento2);*/
+                Intent intento2= new Intent( Perfil.this,Principal.class);
+                startActivity(intento2);
             }
         });
         cerrar_si.setOnClickListener(new View.OnClickListener() {
@@ -441,9 +444,77 @@ public class Perfil extends AppCompatActivity {
                 Log.e("datoConP", valOficina);
                 Log.e("datonom", valFavoritos);
                 Log.e("datoemail", valSexo);
+                if (!valTel.trim().equals("")){
+                    if (!valEmail.trim().equals("")){
+                        if (!valCasa.trim().equals("")){
+                            if (!valOficina.trim().equals("")){
+                                if (telExitoso=true){
+                                    if (pinExitoso=true){
+                                        if(telefonoExitoso=true){
+                                            if(passExitoso=true){
+                                                if( conPasswordExitoso=true){
+                                                    if(emailExitoso=true){
+                                                        if(valContra.equals(valconPass)){
+                                                            if(telefonoExistente==false){
+                                                                telefonosRegistrado.setVisibility(View.GONE);
+                                                                confirmar_actualizar.setVisibility(View.GONE);
 
-                asincrona= new Asincrona();
-                asincrona.execute();
+                                                                asincrona = new Perfil.Asincrona();
+                                                                asincrona.execute();
+
+                                                            }
+                                                            else{
+
+                                                                telefonoExistente=true;
+                                                                telefonosRegistrado.setVisibility(View.VISIBLE);
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            Toast.makeText(getApplicationContext(),"Los PIN deben ser iguales",Toast.LENGTH_LONG).show();
+                                                        }
+                                                    }
+                                                    else{
+                                                        Toast.makeText(getApplicationContext(),"Ingrese su correo electronico",Toast.LENGTH_LONG).show();
+                                                    }
+                                                }
+                                                else{
+                                                    Toast.makeText(getApplicationContext(),"El password solo puede tener numeros.",Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                            else{
+                                                Toast.makeText(getApplicationContext(),"El password solo puede tener numeros.",Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                        else{
+                                            Toast.makeText(getApplicationContext(),"El Telefono solo puede tener numeros.",Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                    else{
+                                        Toast.makeText(getApplicationContext(),"El PIN debe  tener unicamente 4 digitos.",Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(),"el telefono debe tener 10 digitos.",Toast.LENGTH_LONG).show();
+                                }
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(),"La direccipon es necesaria.",Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(),"La direccipon es necesaria .",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(),"El correo es necesario.",Toast.LENGTH_LONG).show();
+                    }
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"El telefono es necesario.",Toast.LENGTH_LONG).show();
+                }
+
+
             }
         });
         confirmar_no.setOnClickListener(new View.OnClickListener() {
@@ -472,6 +543,7 @@ public class Perfil extends AppCompatActivity {
                         {
                             telefonoExitoso=true;
                             mensajetelefono.setVisibility(View.GONE);
+
                         }
 
                         else
@@ -646,6 +718,81 @@ public class Perfil extends AppCompatActivity {
                 return map;
             }
 
+        };
+        requestQueue.add(request);
+    }
+    private class AsincronaTel extends AsyncTask<Void, Integer,Void>
+    {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+        @Override
+        protected Void doInBackground(Void... voids) {
+            valTel = telefonoEditado.getText().toString();
+            Log.e("res6",valTel);
+            buscar_tel();
+            return null;
+        }
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+        }
+        @Override
+
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+        }
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+    }
+    public void buscar_tel()
+    {
+        RequestQueue requestQueue= Volley.newRequestQueue(this);
+        StringRequest request = new StringRequest(Request.Method.POST,  SERVIDOR_CONTROLADOR+"verificar_telefono.php",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("respuesta5:",response + "EL TELEFONO YA EXISTE");
+                        if(response.equals("existe")){
+                            telefonoExistente=true;
+                            telefonosRegistrado.setVisibility(View.VISIBLE);
+                            telefonosRegistrado.setText("El telefono ya existe");
+
+
+
+
+                        }
+                        else{
+                            telefonoExistente=false;
+                            telefonosRegistrado.setVisibility(View.GONE);
+                            cajaTelefonoEditar.setVisibility(View.GONE);
+                            cajaTelefonoTexto.setVisibility(View.VISIBLE);
+                            nuevoTel=telefonoEditado.getText().toString();
+                            telefono.setText(nuevoTel);
+                            telefonoEdit.setVisibility(View.VISIBLE);
+
+
+
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("respuesta5Error:",error + "error");
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+
+
+                map.put("telefono",valTel);
+                return map;
+            }
         };
         requestQueue.add(request);
     }
